@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<!--Nick Chen made this thing on -->
+<html>
+	<head>
+		<title>
+		
+		</title>
+		<script src="utility.js"></script>
+		<script>
+			function initialize() {
+				displayDiv = document.getElementById("displayDiv");
+
+				deck = [];
+				buildDeck();
+				shuffle();
+			}
+			
+			function buildDeck(){
+				for (i=1;i<14;i++){
+					for (s=0;s<4;s++){
+					card = {};
+					card.cardName = i
+					card.cardSuite = s
+					card.cardImage = "cardimages/" + i + "-" + s + ".png";
+					deck.push(card);
+					}
+				}
+			}
+			
+			function pickCard(){
+				if (deck.length == 0){
+					return;
+				}
+				
+				dealtCard = deck.shift();
+				myCard = document.createElement("img");
+				myCard.card = dealtCard;
+				myCard.addEventListener("click", function(){backToDeck(this);});
+				displayDiv.appendChild(myCard);
+				
+				
+				myCard.src = dealtCard.cardImage;
+			}
+			
+			function shuffle(){
+				if (deck.length == 0 ){
+					return;
+				}
+				tempDeck = [];
+				l = deck.length;
+				for (i=0;i<l;i++){
+					randomIdx = getRandomNumber(0,deck.length-1);
+					tempDeck.push(deck.splice(randomIdx,1)[0]);
+				}
+				deck = tempDeck;
+			}
+		</script>
+		<style>
+			body{
+				text-align:center;
+			}
+		</style>
+	</head>
+	<body onload="initialize();">
+		<img onclick="pickCard();" src="cardimages/back-red-75-1.png">
+		<div id="displayDiv"></div>	
+	</body>
+</html>
