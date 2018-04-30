@@ -9,7 +9,9 @@
 		<script>
 			function initialize() {
 				displayDiv = document.getElementById("displayDiv");
-
+				fields = document.getElementsByClassName("field");
+				
+				phase = 0;
 				deck = [];
 				buildDeck();
 				shuffle();
@@ -28,6 +30,9 @@
 			}
 			
 			function pickCard(){
+				if (phase == 1){
+					return;
+				}
 				if (deck.length == 0){
 					return;
 				}
@@ -40,6 +45,12 @@
 				
 				
 				myCard.src = dealtCard.cardImage;
+				
+				phase = 1;
+			}
+			
+			function fieldadd(fieldNum){
+				checkForEmpty();
 			}
 			
 			function shuffle(){
@@ -54,15 +65,61 @@
 				}
 				deck = tempDeck;
 			}
+			
+			function checkForEmpty(){
+				for(i=0;i<fields.length;i++){
+					if(fields[0].innerHTML == ""){
+						return;
+					}
+				}
+				alert("pass");
+			}
 		</script>
 		<style>
 			body{
 				text-align:center;
 			}
+			.field{
+				border:2px solid black;
+				padding-left:37.5px;
+				padding-right:37.5px;
+				padding-top:53px;
+				padding-bottom:53px;
+			}
+			p{
+				margin-top:120px;
+			}
 		</style>
 	</head>
 	<body onload="initialize();">
 		<img onclick="pickCard();" src="cardimages/back-red-75-1.png">
-		<div id="displayDiv"></div>	
+		<div id="displayDiv"></div>
+		
+		<p>
+			<p>
+				<span class="field" id="field1" onclick="fieldadd(1)"></span>&nbsp
+				<span class="field" id="field2" onclick="fieldadd(2)"></span>&nbsp
+				<span class="field" id="field3" onclick="fieldadd(3)"></span>&nbsp
+				<span class="field" id="field4" onclick="fieldadd(4)"></span>&nbsp
+			</p>
+			<p>
+				<span class="field" id="field5" onclick="fieldadd(5)"></span>&nbsp
+				<span class="field" id="field6" onclick="fieldadd(6)"></span>&nbsp
+				<span class="field" id="field7" onclick="fieldadd(7)"></span>&nbsp
+				<span class="field" id="field8" onclick="fieldadd(8)"></span>&nbsp	
+			</p>
+			<p>
+				<span class="field" id="field9" onclick="fieldadd(9)"></span>&nbsp
+				<span class="field" id="field10" onclick="fieldadd(10)"></span>&nbsp
+				<span class="field" id="field11" onclick="fieldadd(11)"></span>&nbsp
+				<span class="field" id="field12" onclick="fieldadd(12)"></span>&nbsp				
+			</p>
+			<p>
+				<span class="field" id="field13" onclick="fieldadd(13)"></span>&nbsp
+				<span class="field" id="field14" onclick="fieldadd(14)"></span>&nbsp
+				<span class="field" id="field15" onclick="fieldadd(15)"></span>&nbsp
+				<span class="field" id="field16" onclick="fieldadd(16)"></span>&nbsp			
+			</p>
+		</p>
 	</body>
 </html>
