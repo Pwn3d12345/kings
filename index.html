@@ -9,9 +9,13 @@
 		<script>
 			function initialize() {
 				displayDiv = document.getElementById("displayDiv");
-				fields = document.getElementsByClassName("field");
 				
-				phase = 0;
+				fields = document.getElementsByClassName("field");
+				for(i=0;i<fields.length;i++){
+					fields[i].content = [];
+				}
+				
+				phase = "flip";
 				deck = [];
 				buildDeck();
 				shuffle();
@@ -30,7 +34,7 @@
 			}
 			
 			function pickCard(){
-				if (phase == 1){
+				if (phase != "flip"){
 					return;
 				}
 				if (deck.length == 0){
@@ -46,10 +50,37 @@
 				
 				myCard.src = dealtCard.cardImage;
 				
-				phase = 1;
+				phase = "fill";
 			}
 			
-			function fieldadd(fieldNum){
+			function fieldAdd(fieldNum){
+				if (phase != "fill"){
+					return;
+				}
+				if (dealtCard.cardName == 11){
+					if(fieldNum != 4 && fieldNum != 7 && fieldNum !=  8 && fieldNum != 11){
+						return;
+					}
+				}
+				
+				if (dealtCard.cardName == 12){
+					if(fieldNum != 1 && fieldNum != 2 && fieldNum !=  13 && fieldNum != 14){
+						return;
+					}
+				}
+				
+				if (dealtCard.cardName == 13){
+					if(fieldNum != 0 && fieldNum != 3 && fieldNum !=  12 && fieldNum != 15){
+						return;
+					}
+				}
+				
+				
+				displayDiv.removeChild(myCard);
+				fields[fieldNum].content.push(dealtCard);
+				fields[fieldNum].src = dealtCard.cardImage;
+//add event listener to detect remove phase later				
+				
 				checkForEmpty();
 			}
 			
@@ -68,10 +99,12 @@
 			
 			function checkForEmpty(){
 				for(i=0;i<fields.length;i++){
-					if(fields[0].innerHTML == ""){
+					if(fields[i].src != "cardimages/blank.png"){
+						phase = "flip";
 						return;
 					}
 				}
+				phase = "remove";
 				alert("pass");
 			}
 		</script>
@@ -79,47 +112,38 @@
 			body{
 				text-align:center;
 			}
-			.field{
-				border:2px solid black;
-				padding-left:37.5px;
-				padding-right:37.5px;
-				padding-top:53px;
-				padding-bottom:53px;
-			}
-			p{
-				margin-top:120px;
-			}
 		</style>
 	</head>
 	<body onload="initialize();">
-		<img onclick="pickCard();" src="cardimages/back-red-75-1.png">
-		<div id="displayDiv"></div>
-		
 		<p>
 			<p>
-				<span class="field" id="field1" onclick="fieldadd(1)"></span>&nbsp
-				<span class="field" id="field2" onclick="fieldadd(2)"></span>&nbsp
-				<span class="field" id="field3" onclick="fieldadd(3)"></span>&nbsp
-				<span class="field" id="field4" onclick="fieldadd(4)"></span>&nbsp
+				<img class="field" src="cardimages/blank.png" id="field1" onclick="fieldAdd(0)">
+				<img class="field" src="cardimages/blank.png" id="field2" onclick="fieldAdd(1)">
+				<img class="field" src="cardimages/blank.png" id="field3" onclick="fieldAdd(2)">
+				<img class="field" src="cardimages/blank.png" id="field4" onclick="fieldAdd(3)">
 			</p>
 			<p>
-				<span class="field" id="field5" onclick="fieldadd(5)"></span>&nbsp
-				<span class="field" id="field6" onclick="fieldadd(6)"></span>&nbsp
-				<span class="field" id="field7" onclick="fieldadd(7)"></span>&nbsp
-				<span class="field" id="field8" onclick="fieldadd(8)"></span>&nbsp	
+				<img class="field" src="cardimages/blank.png" id="field5" onclick="fieldAdd(4)">
+				<img class="field" src="cardimages/blank.png" id="field6" onclick="fieldAdd(5)">
+				<img class="field" src="cardimages/blank.png" id="field7" onclick="fieldAdd(6)">
+				<img class="field" src="cardimages/blank.png" id="field8" onclick="fieldAdd(7)">
 			</p>
 			<p>
-				<span class="field" id="field9" onclick="fieldadd(9)"></span>&nbsp
-				<span class="field" id="field10" onclick="fieldadd(10)"></span>&nbsp
-				<span class="field" id="field11" onclick="fieldadd(11)"></span>&nbsp
-				<span class="field" id="field12" onclick="fieldadd(12)"></span>&nbsp				
+				<img class="field" src="cardimages/blank.png" id="field9" onclick="fieldAdd(8)">
+				<img class="field" src="cardimages/blank.png" id="field10" onclick="fieldAdd(9)">
+				<img class="field" src="cardimages/blank.png" id="field11" onclick="fieldAdd(10)">
+				<img class="field" src="cardimages/blank.png" id="field12" onclick="fieldAdd(11)">		
 			</p>
 			<p>
-				<span class="field" id="field13" onclick="fieldadd(13)"></span>&nbsp
-				<span class="field" id="field14" onclick="fieldadd(14)"></span>&nbsp
-				<span class="field" id="field15" onclick="fieldadd(15)"></span>&nbsp
-				<span class="field" id="field16" onclick="fieldadd(16)"></span>&nbsp			
+				<img class="field" src="cardimages/blank.png" id="field13" onclick="fieldAdd(12)">
+				<img class="field" src="cardimages/blank.png" id="field14" onclick="fieldAdd(13)">
+				<img class="field" src="cardimages/blank.png" id="field15" onclick="fieldAdd(14)">
+				<img class="field" src="cardimages/blank.png" id="field16" onclick="fieldAdd(15)">			
 			</p>
 		</p>
+		
+		<img onclick="pickCard();" src="cardimages/back-red-75-1.png">
+		<div id="displayDiv"></div>
+				
 	</body>
 </html>
