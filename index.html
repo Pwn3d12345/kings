@@ -57,6 +57,11 @@
 				if (phase != "fill"){
 					return;
 				}
+				
+				if(fields[fieldNum].content[0] != null){
+					return;
+				}
+				
 				if (dealtCard.cardName == 11){
 					if(fieldNum != 4 && fieldNum != 7 && fieldNum !=  8 && fieldNum != 11){
 						return;
@@ -99,13 +104,12 @@
 			
 			function checkForEmpty(){
 				for(i=0;i<fields.length;i++){
-					if(fields[i].src != "cardimages/blank.png"){
-						phase = "flip";
+					if(fields[i].content[0] == null){
+						phase = "flip";					
 						return;
 					}
 				}
 				phase = "remove";
-				alert("pass");
 			}
 		</script>
 		<style>
