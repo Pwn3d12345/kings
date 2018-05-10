@@ -9,6 +9,7 @@
 		<script>
 			function initialize() {
 				displayDiv = document.getElementById("displayDiv");
+				statusDiv = document.getElementById("status");
 				
 				fields = document.getElementsByClassName("field");
 				for(i=0;i<fields.length;i++){
@@ -16,6 +17,8 @@
 				}
 				
 				phase = "flip";
+				statusDiv.innerHTML = "Flipping Phase";
+				
 				deck = [];
 				buildDeck();
 				shuffle();
@@ -51,6 +54,7 @@
 				myCard.src = dealtCard.cardImage;
 				
 				phase = "fill";
+				statusDiv.innerHTML = "Filling Phase";
 			}
 			
 			function fieldAdd(fieldNum){
@@ -105,11 +109,13 @@
 			function checkForEmpty(){
 				for(i=0;i<fields.length;i++){
 					if(fields[i].content[0] == null){
-						phase = "flip";					
+						phase = "flip";	
+						statusDiv.innerHTML = "Flipping Phase";					
 						return;
 					}
 				}
 				phase = "remove";
+				statusDiv.innerHTML = "Removing Phase";				
 			}
 		</script>
 		<style>
@@ -147,7 +153,7 @@
 		</p>
 		
 		<img onclick="pickCard();" src="cardimages/back-red-75-1.png">
+		<div id="status"></div>
 		<div id="displayDiv"></div>
-				
 	</body>
 </html>
