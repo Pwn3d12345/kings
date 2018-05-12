@@ -16,6 +16,7 @@
 					fields[i].content = [];
 				}
 				
+				selected = 0;
 				phase = "flip";
 				statusDiv.innerHTML = "Flipping Phase";
 				
@@ -47,7 +48,7 @@
 				dealtCard = deck.shift();
 				myCard = document.createElement("img");
 				myCard.card = dealtCard;
-				myCard.addEventListener("click", function(){backToDeck(this);});
+				myCard.addEventListener("click", function(){selectCard(this);});
 				displayDiv.appendChild(myCard);
 				
 				
@@ -58,39 +59,74 @@
 			}
 			
 			function fieldAdd(fieldNum){
-				if (phase != "fill"){
-					return;
-				}
-				
-				if(fields[fieldNum].content[0] != null){
-					return;
-				}
-				
-				if (dealtCard.cardName == 11){
-					if(fieldNum != 4 && fieldNum != 7 && fieldNum !=  8 && fieldNum != 11){
+				if (phase == "fill"){
+					if(fields[fieldNum].content[0] != null){
 						return;
 					}
+					
+					if (dealtCard.cardName == 11){
+						if(fieldNum != 4 && fieldNum != 7 && fieldNum !=  8 && fieldNum != 11){
+							return;
+						}
+					}
+					
+					if (dealtCard.cardName == 12){
+						if(fieldNum != 1 && fieldNum != 2 && fieldNum !=  13 && fieldNum != 14){
+							return;
+						}
+					}
+					
+					if (dealtCard.cardName == 13){
+						if(fieldNum != 0 && fieldNum != 3 && fieldNum !=  12 && fieldNum != 15){
+							return;
+						}
+					}
+					
+					
+					displayDiv.removeChild(myCard);
+					fields[fieldNum].content.push(dealtCard);
+					fields[fieldNum].src = dealtCard.cardImage;
+					checkForEmpty();
 				}
 				
-				if (dealtCard.cardName == 12){
-					if(fieldNum != 1 && fieldNum != 2 && fieldNum !=  13 && fieldNum != 14){
+				if (phase == "remove"){
+					if(fields[fieldNum].content[0].cardName == 11 || fields[fieldNum].content[0].cardName == 12 || fields[fieldNum].content[0].cardName == 13){
 						return;
 					}
-				}
-				
-				if (dealtCard.cardName == 13){
-					if(fieldNum != 0 && fieldNum != 3 && fieldNum !=  12 && fieldNum != 15){
-						return;
+					
+					if(selected == 0){
+						fields[fieldNum].style.opacity = "0.5";					
+						selection1 = fieldNum;
+						selected++;
+					} else {
+					
+						if(selection1 == fieldNum){
+							return;
+						}
+						
+						fields[fieldNum].style.opacity = "0.5";						
+						selection2 = fieldNum;
+						
+						if((fields[selection1].content[0].cardName+fields[selection2].content[0].cardName) == 10){
+							selected = 0;						
+							
+							fields[selection1].content.shift();
+							fields[selection1].src = "cardimages/blank.png";
+							fields[selection1].style.opacity = "1";
+
+							fields[selection2].content.shift();							
+							fields[selection2].src = "cardimages/blank.png";
+							fields[selection2].style.opacity = "1";
+							checkFor10();
+						} else {
+							selected = 0;						
+							fields[selection1].style.opacity = "1";
+							fields[selection2].style.opacity = "1";							
+						}
+						selection1 = 0;						
+						selection2 = 0;						
 					}
 				}
-				
-				
-				displayDiv.removeChild(myCard);
-				fields[fieldNum].content.push(dealtCard);
-				fields[fieldNum].src = dealtCard.cardImage;
-//add event listener to detect remove phase later				
-				
-				checkForEmpty();
 			}
 			
 			function shuffle(){
@@ -116,6 +152,15 @@
 				}
 				phase = "remove";
 				statusDiv.innerHTML = "Removing Phase";				
+			}
+			
+			function test(){
+				phase = "remove"
+				statusDiv.innerHTML = "Removing Phase";					
+			}
+			
+			function checkFor10(){
+
 			}
 		</script>
 		<style>
@@ -155,5 +200,6 @@
 		<img onclick="pickCard();" src="cardimages/back-red-75-1.png">
 		<div id="status"></div>
 		<div id="displayDiv"></div>
+		<button onclick="test()">TEST</button>
 	</body>
 </html>
