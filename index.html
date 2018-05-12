@@ -17,9 +17,9 @@
 				}
 				
 				selected = 0;
-				phase = "flip";
-				statusDiv.innerHTML = "Flipping Phase";
-				
+				phase = "pick";
+				statusDiv.innerHTML = "Picking Phase";
+							
 				deck = [];
 				buildDeck();
 				shuffle();
@@ -38,7 +38,7 @@
 			}
 			
 			function pickCard(){
-				if (phase != "flip"){
+				if (phase != "pick"){
 					return;
 				}
 				if (deck.length == 0){
@@ -48,7 +48,6 @@
 				dealtCard = deck.shift();
 				myCard = document.createElement("img");
 				myCard.card = dealtCard;
-				myCard.addEventListener("click", function(){selectCard(this);});
 				displayDiv.appendChild(myCard);
 				
 				
@@ -60,7 +59,7 @@
 			
 			function fieldAdd(fieldNum){
 				if (phase == "fill"){
-					if(fields[fieldNum].content[0] != null){
+					if(fields[fieldNum].content == null){
 						return;
 					}
 					
@@ -82,9 +81,8 @@
 						}
 					}
 					
-					
 					displayDiv.removeChild(myCard);
-					fields[fieldNum].content.push(dealtCard);
+					fields[fieldNum].content[0] = dealtCard;
 					fields[fieldNum].src = dealtCard.cardImage;
 					checkForEmpty();
 				}
@@ -93,7 +91,14 @@
 					if(fields[fieldNum].content[0].cardName == 11 || fields[fieldNum].content[0].cardName == 12 || fields[fieldNum].content[0].cardName == 13){
 						return;
 					}
-					
+		
+					if(fields[fieldNum].content[0].cardName == 10){
+						fields[fieldNum].content.shift();							
+						fields[fieldNum].src = "cardimages/blank.png";
+						checkFor10();
+						return;
+					}
+		
 					if(selected == 0){
 						fields[fieldNum].style.opacity = "0.5";					
 						selection1 = fieldNum;
@@ -111,10 +116,12 @@
 							selected = 0;						
 							
 							fields[selection1].content.shift();
+							fields[selection1].content.push(blankCard);
 							fields[selection1].src = "cardimages/blank.png";
 							fields[selection1].style.opacity = "1";
 
-							fields[selection2].content.shift();							
+							fields[selection2].content.shift();
+							fields[selection1].content.push(blankCard);							
 							fields[selection2].src = "cardimages/blank.png";
 							fields[selection2].style.opacity = "1";
 							checkFor10();
@@ -145,8 +152,8 @@
 			function checkForEmpty(){
 				for(i=0;i<fields.length;i++){
 					if(fields[i].content[0] == null){
-						phase = "flip";	
-						statusDiv.innerHTML = "Flipping Phase";					
+						phase = "pick";	
+						statusDiv.innerHTML = "Picking Phase";					
 						return;
 					}
 				}
@@ -160,7 +167,12 @@
 			}
 			
 			function checkFor10(){
-
+				for(i=0;i<14;i++){
+					for(n=1;n<15;n++){
+					}
+				}
+				phase = "pick"
+				statusDiv.innerHTML = "Picking Phase";					
 			}
 		</script>
 		<style>
