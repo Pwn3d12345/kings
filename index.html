@@ -12,8 +12,14 @@
 				statusDiv = document.getElementById("status");
 				
 				fields = document.getElementsByClassName("field");
+				
+				blankCard = {};
+				blankCard.cardName = 14
+				blankCard.cardSuite = 0
+				blankCard.cardImage = "cardimages/blank.png";				
 				for(i=0;i<fields.length;i++){
 					fields[i].content = [];
+					fields[i].content.push(blankCard);
 				}
 				
 				selected = 0;
@@ -59,7 +65,7 @@
 			
 			function fieldAdd(fieldNum){
 				if (phase == "fill"){
-					if(fields[fieldNum].content == null){
+					if(!fields[fieldNum].content[0].cardName == 14){
 						return;
 					}
 					
@@ -84,7 +90,9 @@
 					displayDiv.removeChild(myCard);
 					fields[fieldNum].content[0] = dealtCard;
 					fields[fieldNum].src = dealtCard.cardImage;
+					checkForWin();
 					checkForEmpty();
+					return;
 				}
 				
 				if (phase == "remove"){
@@ -116,12 +124,10 @@
 							selected = 0;						
 							
 							fields[selection1].content.shift();
-							fields[selection1].content.push(blankCard);
 							fields[selection1].src = "cardimages/blank.png";
 							fields[selection1].style.opacity = "1";
 
-							fields[selection2].content.shift();
-							fields[selection1].content.push(blankCard);							
+							fields[selection2].content.shift();							
 							fields[selection2].src = "cardimages/blank.png";
 							fields[selection2].style.opacity = "1";
 							checkFor10();
@@ -133,6 +139,7 @@
 						selection1 = 0;						
 						selection2 = 0;						
 					}
+					return;
 				}
 			}
 			
@@ -151,7 +158,7 @@
 			
 			function checkForEmpty(){
 				for(i=0;i<fields.length;i++){
-					if(fields[i].content[0] == null){
+					if(fields[i].content[0].cardName == 14){
 						phase = "pick";	
 						statusDiv.innerHTML = "Picking Phase";					
 						return;
@@ -168,12 +175,45 @@
 			
 			function checkFor10(){
 				for(i=0;i<14;i++){
+					if(fields[i].content[0].cardName == 10){
+						return;
+					}
 					for(n=1;n<15;n++){
+						if(fields[i].content[0].cardName+fields[n].content[0].cardName==10){
+							alert(fields[i].content[0].cardName+fields[n].content[0].cardName==10)
+							return;
+						}
 					}
 				}
 				phase = "pick"
 				statusDiv.innerHTML = "Picking Phase";					
 			}
+			
+			function checkForWin(){
+				if(!(fields[0].content[0].cardName == 13 && fields[3].content[0].cardName == 13 && fields[12].content[0].cardName == 13 && fields[15].content[0].cardName == 13)){
+					return;
+				}
+/*				if(!(fields[1].content[0].cardName == 12 && fields[2].content[0].cardName == 12 && fields[14].content[0].cardName == 12 && fields[13].content[0].cardName == 12)){
+					return;
+				}
+				if(!(fields[4].content[0].cardName == 11 && fields[7].content[0].cardName == 11 && fields[8].content[0].cardName == 11 && fields[11].content[0].cardName == 11)){
+					return;
+				}
+	*/
+				if(!(fields[0].content[0].cardName == 13 && fields[3].content[0].cardName == 13 && fields[12].content[0].cardName == 13 && fields[15].content[0].cardName == 13)){
+					return;
+				}
+				phase = "win"
+				statusDiv.innerHTML = "You Win!";
+			}
+			
+			function truea(){
+				alert((fields[0].content[0].cardName == 13 && fields[3].content[0].cardName == 13 && fields[12].content[0].cardName == 13 && fields[15].content[0].cardName == 13))
+			}
+			function falsea(){
+				alert(!(fields[0].content[0].cardName == 13 && fields[3].content[0].cardName == 13 && fields[12].content[0].cardName == 13 && fields[15].content[0].cardName == 13))
+			}
+//FIX CHECKWIN and CHECK10,not returning to picking phase
 		</script>
 		<style>
 			body{
@@ -182,7 +222,6 @@
 		</style>
 	</head>
 	<body onload="initialize();">
-		<p>
 			<p>
 				<img class="field" src="cardimages/blank.png" id="field1" onclick="fieldAdd(0)">
 				<img class="field" src="cardimages/blank.png" id="field2" onclick="fieldAdd(1)">
@@ -207,11 +246,12 @@
 				<img class="field" src="cardimages/blank.png" id="field15" onclick="fieldAdd(14)">
 				<img class="field" src="cardimages/blank.png" id="field16" onclick="fieldAdd(15)">			
 			</p>
-		</p>
 		
 		<img onclick="pickCard();" src="cardimages/back-red-75-1.png">
 		<div id="status"></div>
 		<div id="displayDiv"></div>
 		<button onclick="test()">TEST</button>
+		<button onclick="truea()">true</button>
+		<button onclick="falsea()">false</button>
 	</body>
 </html>
