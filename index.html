@@ -90,20 +90,21 @@
 					displayDiv.removeChild(myCard);
 					fields[fieldNum].content[0] = dealtCard;
 					fields[fieldNum].src = dealtCard.cardImage;
-					checkForWin();
 					checkForEmpty();
+					checkForWin();					
 					return;
 				}
 				
 				if (phase == "remove"){
-					if(fields[fieldNum].content[0].cardName == 11 || fields[fieldNum].content[0].cardName == 12 || fields[fieldNum].content[0].cardName == 13){
-						return;
-					}
-		
+
 					if(fields[fieldNum].content[0].cardName == 10){
-						fields[fieldNum].content.shift();							
+						fields[fieldNum].content[0] = blankCard;							
 						fields[fieldNum].src = "cardimages/blank.png";
 						checkFor10();
+						return;
+					}
+					
+					if(fields[fieldNum].content[0].cardName > 9){
 						return;
 					}
 		
@@ -123,11 +124,11 @@
 						if((fields[selection1].content[0].cardName+fields[selection2].content[0].cardName) == 10){
 							selected = 0;						
 							
-							fields[selection1].content.shift();
+							fields[selection1].content[0] = blankCard;
 							fields[selection1].src = "cardimages/blank.png";
 							fields[selection1].style.opacity = "1";
 
-							fields[selection2].content.shift();							
+							fields[selection2].content[0] = blankCard;							
 							fields[selection2].src = "cardimages/blank.png";
 							fields[selection2].style.opacity = "1";
 							checkFor10();
@@ -165,7 +166,8 @@
 					}
 				}
 				phase = "remove";
-				statusDiv.innerHTML = "Removing Phase";				
+				statusDiv.innerHTML = "Removing Phase";
+				checkForFullLose();
 			}
 			
 			function test(){
@@ -179,41 +181,57 @@
 						return;
 					}
 					for(n=1;n<15;n++){
-						if(fields[i].content[0].cardName+fields[n].content[0].cardName==10){
-							alert(fields[i].content[0].cardName+fields[n].content[0].cardName==10)
+						if(fields[i].content[0].cardName+fields[n].content[0].cardName==10 && n!=i){
 							return;
 						}
 					}
 				}
 				phase = "pick"
-				statusDiv.innerHTML = "Picking Phase";					
+				statusDiv.innerHTML = "Picking Phase";						
+			}
+			
+			function checkForFullLose(){
+				for(i=0;i>15;i++){
+					if(fields[i].content[0].cardName < 14){
+						return;
+					}
+				}
+				phase = "lose"
+				statusDiv.innerHTML = "You Lose!";
+			}
+			
+			function checkForFillLose(){
+				if(dealtCard.cardName == 11){
+				
+				}
+				if(dealtCard.cardName == 11){
+				
+				}
+				if(dealtCard.cardName == 11){
+				
+				}
 			}
 			
 			function checkForWin(){
 				if(!(fields[0].content[0].cardName == 13 && fields[3].content[0].cardName == 13 && fields[12].content[0].cardName == 13 && fields[15].content[0].cardName == 13)){
 					return;
 				}
-/*				if(!(fields[1].content[0].cardName == 12 && fields[2].content[0].cardName == 12 && fields[14].content[0].cardName == 12 && fields[13].content[0].cardName == 12)){
+				if(!(fields[1].content[0].cardName == 12 && fields[2].content[0].cardName == 12 && fields[13].content[0].cardName == 12 && fields[14].content[0].cardName == 12)){
 					return;
 				}
 				if(!(fields[4].content[0].cardName == 11 && fields[7].content[0].cardName == 11 && fields[8].content[0].cardName == 11 && fields[11].content[0].cardName == 11)){
 					return;
 				}
-	*/
-				if(!(fields[0].content[0].cardName == 13 && fields[3].content[0].cardName == 13 && fields[12].content[0].cardName == 13 && fields[15].content[0].cardName == 13)){
-					return;
-				}
+
 				phase = "win"
 				statusDiv.innerHTML = "You Win!";
 			}
 			
-			function truea(){
-				alert((fields[0].content[0].cardName == 13 && fields[3].content[0].cardName == 13 && fields[12].content[0].cardName == 13 && fields[15].content[0].cardName == 13))
+			function test2(){
+				alert(fields[0].content[0].cardName<14);
+				alert(fields[0].content[0].cardName);
 			}
-			function falsea(){
-				alert(!(fields[0].content[0].cardName == 13 && fields[3].content[0].cardName == 13 && fields[12].content[0].cardName == 13 && fields[15].content[0].cardName == 13))
-			}
-//FIX CHECKWIN and CHECK10,not returning to picking phase
+//CHECK10,not returning to picking phase, also fix being able to place cards over cards(fields that are not empty (14)), add lose condition for not being able to place any face cards;
 		</script>
 		<style>
 			body{
@@ -251,7 +269,6 @@
 		<div id="status"></div>
 		<div id="displayDiv"></div>
 		<button onclick="test()">TEST</button>
-		<button onclick="truea()">true</button>
-		<button onclick="falsea()">false</button>
+		<button onclick="test2()">TEST2</button>
 	</body>
 </html>
