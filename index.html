@@ -29,6 +29,7 @@
 				deck = [];
 				buildDeck();
 				shuffle();
+				
 			}
 			
 			function buildDeck(){
@@ -170,11 +171,6 @@
 				checkForFullLose();
 			}
 			
-			function test(){
-				phase = "remove"
-				statusDiv.innerHTML = "Removing Phase";					
-			}
-			
 			function checkFor10(){
 				for(i=0;i<14;i++){
 					if(fields[i].content[0].cardName == 10){
@@ -191,13 +187,22 @@
 			}
 			
 			function checkForFullLose(){
-				for(i=0;i>15;i++){
+				for(i=0;i<15;i++){
 					if(fields[i].content[0].cardName < 14){
-						return;
+						for(i=0;i<14;i++){
+							if(fields[i].content[0].cardName == 10){
+								return;
+							}
+							for(n=1;n<15;n++){
+								if(fields[i].content[0].cardName+fields[n].content[0].cardName==10 && n!=i){
+									return;
+								}
+							}
+						}						
 					}
 				}
 				phase = "lose"
-				statusDiv.innerHTML = "You Lose!";
+				statusDiv.innerHTML = "There are no cards you can remove and the field is filled, you lose!";
 			}
 			
 			function checkForFillLose(){
@@ -227,11 +232,14 @@
 				statusDiv.innerHTML = "You Win!";
 			}
 			
+			function test(){
+				alert(fields[parseInt(document.getElementById("testid").value)].content[0].cardName);
+			}
 			function test2(){
 				alert(fields[0].content[0].cardName<14);
 				alert(fields[0].content[0].cardName);
 			}
-//CHECK10,not returning to picking phase, also fix being able to place cards over cards(fields that are not empty (14)), add lose condition for not being able to place any face cards;
+//fix being able to place cards over cards(fields that are not empty (14)) <-- do LAST, add lose condition for not being able to place any face cards; check win
 		</script>
 		<style>
 			body{
@@ -270,5 +278,6 @@
 		<div id="displayDiv"></div>
 		<button onclick="test()">TEST</button>
 		<button onclick="test2()">TEST2</button>
+		<input id="testid">
 	</body>
 </html>
