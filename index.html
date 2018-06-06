@@ -62,6 +62,7 @@
 				
 				phase = "fill";
 				statusDiv.innerHTML = "Filling Phase";
+				checkForEmptyDeck();
 				checkForFillLose();
 			}
 			
@@ -246,22 +247,37 @@
 				statusDiv.innerHTML = "You Win!";
 			}
 			
-			function test(){
-				alert(fields[parseInt(document.getElementById("testid").value)].content[0].cardName);
+			function checkForEmptyDeck(){
+				if(!(deck.length==0)){
+					return;
+				}
+				phase = "remove";
+				statusDiv.innerHTML = "Removing Phase";
 			}
-			function test2(){
-				alert(fields[0].content[0].cardName<14);
-				alert(fields[0].content[0].cardName);
-			}
+
 //fix being able to place cards over cards(fields that are not empty (14)) <-- do LAST, add lose condition for not being able to place any face cards
 		</script>
 		<style>
 			body{
 				text-align:center;
 			}
+			#bg{
+				width:100%;
+				height:100%;
+				z-index:-1;
+				position:fixed;
+				top:0%;
+				left:0%;
+			}
+			#displayDiv, #status{
+				font-family: comic sans ms;
+				font-size:20px;
+				color:white;
+			}
 		</style>
 	</head>
 	<body onload="initialize();">
+		<img src="cardimages/bg.jpg" id="bg">
 			<p>
 				<img class="field" src="cardimages/blank.png" id="field1" onclick="fieldAdd(0)">
 				<img class="field" src="cardimages/blank.png" id="field2" onclick="fieldAdd(1)">
@@ -290,8 +306,5 @@
 		<img onclick="pickCard();" src="cardimages/back-red-75-1.png">
 		<div id="status"></div>
 		<div id="displayDiv"></div>
-		<button onclick="test()">TEST</button>
-		<button onclick="test2()">TEST2</button>
-		<input id="testid">
 	</body>
 </html>
