@@ -62,11 +62,12 @@
 				
 				phase = "fill";
 				statusDiv.innerHTML = "Filling Phase";
+				checkForFillLose();
 			}
 			
 			function fieldAdd(fieldNum){
 				if (phase == "fill"){
-					if(!fields[fieldNum].content[0].cardName == 14){
+					if(!(fields[fieldNum].content[0].cardName == 14)){
 						return;
 					}
 					
@@ -207,14 +208,25 @@
 			
 			function checkForFillLose(){
 				if(dealtCard.cardName == 11){
-				
+					if(fields[4].content[0].cardName!=14&&fields[7].content[0].cardName!=14&&fields[8].content[0].cardName!=14&&fields[11].content[0].cardName!=14){
+						fillLose();
+					}
 				}
-				if(dealtCard.cardName == 11){
-				
+				if(dealtCard.cardName == 12){
+					if(fields[1].content[0].cardName!=14&&fields[2].content[0].cardName!=14&&fields[13].content[0].cardName!=14&&fields[14].content[0].cardName!=14){
+						fillLose();
+					}				
 				}
-				if(dealtCard.cardName == 11){
-				
-				}
+				if(dealtCard.cardName == 13){
+					if(fields[0].content[0].cardName!=14&&fields[3].content[0].cardName!=14&&fields[12].content[0].cardName!=14&&fields[15].content[0].cardName!=14){
+						fillLose();
+					}					
+				}	
+			}
+			
+			function fillLose(){
+				phase = "lose"
+				statusDiv.innerHTML = "There are no available fields for your face card, you lose!";			
 			}
 			
 			function checkForWin(){
@@ -224,10 +236,12 @@
 				if(!(fields[1].content[0].cardName == 12 && fields[2].content[0].cardName == 12 && fields[13].content[0].cardName == 12 && fields[14].content[0].cardName == 12)){
 					return;
 				}
-				if(!(fields[4].content[0].cardName == 11 && fields[7].content[0].cardName == 11 && fields[8].content[0].cardName == 11 && fields[11].content[0].cardName == 11)){
+				if(!(fields[4].content[0].cardName == 11 && fields[7].content[0].cardName == 11 && fields[12].content[0].cardName == 11 && fields[15].content[0].cardName == 11)){
 					return;
 				}
-
+				if(!(fields[5].content[0].cardName != 14 && fields[6].content[0].cardName == 11 && fields[9].content[0].cardName == 11 && fields[10].content[0].cardName == 11)){
+					return;
+				}
 				phase = "win"
 				statusDiv.innerHTML = "You Win!";
 			}
@@ -239,7 +253,7 @@
 				alert(fields[0].content[0].cardName<14);
 				alert(fields[0].content[0].cardName);
 			}
-//fix being able to place cards over cards(fields that are not empty (14)) <-- do LAST, add lose condition for not being able to place any face cards; check win
+//fix being able to place cards over cards(fields that are not empty (14)) <-- do LAST, add lose condition for not being able to place any face cards
 		</script>
 		<style>
 			body{
