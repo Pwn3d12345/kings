@@ -62,7 +62,6 @@
 				
 				phase = "fill";
 				statusDiv.innerHTML = "Filling Phase";
-				checkForEmptyDeck();
 				checkForFillLose();
 			}
 			
@@ -94,6 +93,7 @@
 					fields[fieldNum].content[0] = dealtCard;
 					fields[fieldNum].src = dealtCard.cardImage;
 					checkForEmpty();
+					checkForEmptyDeck();					
 					checkForWin();					
 					return;
 				}
@@ -178,30 +178,34 @@
 					if(fields[i].content[0].cardName == 10){
 						return;
 					}
-					for(n=1;n<15;n++){
+					for(n=1;n<14;n++){
 						if(fields[i].content[0].cardName+fields[n].content[0].cardName==10 && n!=i){
 							return;
 						}
 					}
 				}
+				if(fields[15].content[0].cardName == 10){
+					return;
+				}		
 				phase = "pick"
 				statusDiv.innerHTML = "Picking Phase";						
 			}
 			
 			function checkForFullLose(){
 				for(i=0;i<15;i++){
-					if(fields[i].content[0].cardName < 14){
-						for(i=0;i<14;i++){
-							if(fields[i].content[0].cardName == 10){
-								return;
-							}
-							for(n=1;n<15;n++){
-								if(fields[i].content[0].cardName+fields[n].content[0].cardName==10 && n!=i){
-									return;
-								}
-							}
-						}						
+					if(fields[i].content[0].cardName == 14){
+						return;
 					}
+				}
+				for(i=0;i<15;i++){
+					if(fields[i].content[0].cardName == 10){
+						return;
+					}
+					for(n=1;n<15;n++){
+						if(fields[i].content[0].cardName+fields[n].content[0].cardName==10 && n!=i){
+							return;
+						}
+					}					
 				}
 				phase = "lose"
 				statusDiv.innerHTML = "There are no cards you can remove and the field is filled, you lose!";
