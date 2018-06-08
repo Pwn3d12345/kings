@@ -174,25 +174,22 @@
 			}
 			
 			function checkFor10(){
-				for(i=0;i<15;i++){
+				for(i=0;i<16;i++){
 					if(fields[i].content[0].cardName == 10){
 						return;
 					}
-					for(n=1;n<14;n++){
+					for(n=1;n<15;n++){
 						if(fields[i].content[0].cardName+fields[n].content[0].cardName==10 && n!=i){
 							return;
 						}
 					}
 				}
-				if(fields[15].content[0].cardName == 10){
-					return;
-				}		
 				phase = "pick"
 				statusDiv.innerHTML = "Picking Phase";						
 			}
 			
 			function checkForFullLose(){
-				for(i=0;i<15;i++){
+				for(i=0;i<16;i++){
 					if(fields[i].content[0].cardName == 14){
 						return;
 					}
